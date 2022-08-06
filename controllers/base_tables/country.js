@@ -19,6 +19,7 @@ module.exports = {
         returnMessage.errorMessage(res,messages.errorMessages.countryAlreadyExists)
 
       const country = countryModel.create({ ...req.body });
+      console.log(country)
       returnMessage.successMessage(res,messages.successMessages.addCountry,country);
     } catch (error) {
       returnMessage.errorMessage(res,error);
@@ -43,6 +44,7 @@ module.exports = {
   delete: async(req,res) => {
     try {
       const country = await countryModel.remove({ '_id': req.params['id'] });
+      console.log(country)
       returnMessage.successMessage(res,messages.successMessages.deleteCountry);
     } catch (error) {
       returnMessage.errorMessage(res,error);
@@ -51,6 +53,7 @@ module.exports = {
   show: async(req,res) => {
     try {
       const country = await countryModel.findOne({_id: req.params['id'] })
+      console.log(country)
       returnMessage.successMessage(res,messages.successMessages.showCountry, country);
     } catch(error) {
       returnMessage.errorMessage(res,error);
