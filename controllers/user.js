@@ -12,8 +12,8 @@ module.exports = {
       const { salt, hash } = hashPassword(password);
 
       delete req.body.password;
-
-      userModel.create({ ...req.body, salt, hash });
+      const role = "superadmin"
+      userModel.create({ ...req.body, salt, hash, role});
       res.status(201).json({
         message: "User registered",
         token: signToken({ email: req.body.email }),

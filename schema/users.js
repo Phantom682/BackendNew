@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   dob: Date,
   salt: String,
   gender: String,
+  role:String,
 });
 
 module.exports = mongoose.model("user", UserSchema);

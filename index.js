@@ -13,7 +13,7 @@ const routePrefix = "api";
 
 app.use(`/${routePrefix}`, authRoute);
 
-app.listen(4000, async () => {
+app.listen(5000, async () => {
   try {
     await dbConnection(process.env.MONGO_URI);
     console.log("dbConnected at", process.env.MONGO_URI);
