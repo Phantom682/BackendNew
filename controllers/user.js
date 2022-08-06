@@ -1,4 +1,5 @@
 const userModel = require("../schema/users");
+const roleModel = require("../schema/roles");
 const { hashPassword, signToken, verifyToken } = require("../utils");
 module.exports = {
   register: async (req, res) => {
@@ -12,7 +13,9 @@ module.exports = {
       const { salt, hash } = hashPassword(password);
 
       delete req.body.password;
-      const role = "superadmin"
+
+      const role = await roleModel.findOne({name:"superAdmin"},{_id:1});
+
       userModel.create({ ...req.body, salt, hash, role});
       res.status(201).json({
         message: "User registered",
@@ -23,6 +26,7 @@ module.exports = {
       res.status(500).json({ error });
     }
   },
+
   login: async (req, res) => {
     try {
       const { password, email } = req.body;
@@ -41,6 +45,16 @@ module.exports = {
         });
       }
       return res.status(400).json({ message: "Incorrect password" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
+  profile: async (req,res) => {
+    try {
+      const user = await userModel.findOne({email:req.user})
+      res.status(200).json({user:user})
     } catch (error) {
       console.log(error);
       res.status(500).json({ error });
