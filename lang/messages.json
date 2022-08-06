@@ -1,0 +1,23 @@
+{
+    "successMessages": {
+        "getAllCountries":"Countries data retrieved successfully",
+        "addCountry":"Country added successfully",
+        "showCountry":"Country found!!",
+        "deleteCountry": "Country deleted successfully",
+        "updateCountry": "Updation Successfull",
+        "getAllStates":"States data retrieved successfully",
+        "addState":"state added successfully",
+        "showState":"state found!!",
+        "deleteState": "state deleted successfully",
+        "updateState": "Updation Successfull",
+        "addRole":"Role added successfully",
+        "addRoutePermission" : "Route Permission Added Succesfully"
+    },
+
+    "errorMessages": {
+        "countryAlreadyExists": "Enter Country already exists",
+        "incorrectState": "Enter State Country detail",
+        "incorrectRole":"Error while adding role",
+        "addRoutePermission": "Unable to Add Route Permission"
+    }
+}
