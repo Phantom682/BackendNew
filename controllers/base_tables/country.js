@@ -11,6 +11,7 @@ module.exports = {
       returnMessage.errorMessage(res,error);
     }
   },
+
   create: async (req, res) => {
     try {
       const { name } = req.body;
@@ -24,6 +25,7 @@ module.exports = {
       returnMessage.errorMessage(res,error);
     }
   },
+
   edit: async(req,res) => {
     try {
       const country = await countryModel.findOne({_id: req.params['id'] })
@@ -32,6 +34,7 @@ module.exports = {
       returnMessage.errorMessage(res,error);
     }
   },
+
   update: async(req,res) => {
     try {
       const country = await countryModel.findByIdAndUpdate(req.params['id'], { ...req.body });
@@ -40,6 +43,7 @@ module.exports = {
       returnMessage.errorMessage(res,error);
     }
   },
+
   delete: async(req,res) => {
     try {
       const country = await countryModel.remove({ '_id': req.params['id'] });
@@ -48,6 +52,7 @@ module.exports = {
       returnMessage.errorMessage(res,error);
     }
   },
+  
   show: async(req,res) => {
     try {
       const country = await countryModel.findOne({_id: req.params['id'] })
