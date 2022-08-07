@@ -10,13 +10,28 @@
         "showState":"state found!!",
         "deleteState": "state deleted successfully",
         "updateState": "Updation Successfull",
+        "getAllDistricts":"Districts data retrieved successfully",
+        "addDistrict":"District added successfully",
+        "showDistrict":"District found!!",
+        "deleteDistrict": "District deleted successfully",
+        "updateDistrict": "Updation Successfull",
+        "getAllOrganisations":"Organisation data retrieved successfully",
+        "addOrganisation":"Organisation added successfully",
+        "showOrganisation":"Organisation found!!",
+        "deleteOrganisation": "Organisation deleted successfully",
+        "updateOrganisation": "Updation Successfull",
         "addRole":"Role added successfully",
         "addRoutePermission" : "Route Permission Added Succesfully"
     },
 
     "errorMessages": {
         "countryAlreadyExists": "Enter Country already exists",
+        "stateAlreadyExists": "Enter State already exists",
         "incorrectState": "Enter State Country detail",
+        "districtAlreadyExists": "Enter District already exists",
+        "incorrectDistrict": "Enter correct District detail",
+        "incorrectOrganisation":"Enter Correct Organisation Details",
+        "organisationAlreadyExists": "Enter Organisation already exists",
         "incorrectRole":"Error while adding role",
         "addRoutePermission": "Unable to Add Route Permission"
     }
