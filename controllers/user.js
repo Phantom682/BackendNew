@@ -1,6 +1,11 @@
 const userModel = require("../schema/users");
 const roleModel = require("../schema/roles");
+
+
 const { hashPassword, signToken, verifyToken } = require("../utils");
+
+
+
 module.exports = {
   register: async (req, res) => {
     try {
@@ -14,18 +19,19 @@ module.exports = {
 
       delete req.body.password;
 
-      const role = await roleModel.findOne({name:"superAdmin"},{_id:1});
+      const role = await roleModel.findOne({ name: "superAdmin" }, { _id: 1 });
 
-      userModel.create({ ...req.body, salt, hash, role});
+      userModel.create({ ...req.body, salt, hash, role });
       res.status(201).json({
         message: "User registered",
         token: signToken({ email: req.body.email }),
-      });
+      })
     } catch (error) {
       console.log(error);
       res.status(500).json({ error });
     }
   },
+
 
   login: async (req, res) => {
     try {
@@ -51,10 +57,10 @@ module.exports = {
     }
   },
 
-  profile: async (req,res) => {
+  profile: async (req, res) => {
     try {
-      const user = await userModel.findOne({email:req.user})
-      res.status(200).json({user:user})
+      const user = await userModel.findOne({ email: req.user })
+      res.status(200).json({ user: user })
     } catch (error) {
       console.log(error);
       res.status(500).json({ error });

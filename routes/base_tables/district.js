@@ -2,7 +2,7 @@ const district = require("../../controllers/base_tables/district");
 
 const router = require("express").Router();
 
-router.get("/", district.index);
+router.get("/", district.getAllDistricts);
 router.post("/", district.create);
 router.get("/:id/edit",district.edit);
 router.put("/:id",district.update);

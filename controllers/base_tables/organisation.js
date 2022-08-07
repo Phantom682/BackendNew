@@ -4,62 +4,65 @@ const messages = require("../../lang/messages.json");
 
 module.exports = {
 
-  getAllOrganisations: async(req,res) => {
+  getAllOrganisations: async (req, res) => {
     try {
       const organisations = await organisationModel.find({});
       console.log(await organisations[0].departments[0])
-      returnMessage.successMessage(res,messages.successMessages.getAllOrganisations,organisations);
+      returnMessage.successMessage(res, messages.successMessages.getAllOrganisations, organisations);
     } catch (error) {
-      returnMessage.errorMessage(res,error);
+      returnMessage.errorMessage(res, error);
     }
   },
 
   create: async (req, res) => {
     try {
-      console.log(req.body)
       const { name } = req.body;
-      const isNameTaken = await organisationModel.findOne({ name });
-      if (isNameTaken)
-        returnMessage.errorMessage(res,messages.errorMessages.organisationAllreadyExists)
-      const organisation = await organisationModel.create({ ...req.body});
-      console.log(organisation)
-      returnMessage.successMessage(res,messages.successMessages.addOrganisation,organisation);
+      if (name.length <= 0) {
+        return res.status(400).json({ message: "OrganisationName Can Not Be Empty" });
+      } else {
+        const isNameTaken = await organisationModel.findOne({ name });
+        if (isNameTaken)
+          returnMessage.errorMessage(res, messages.errorMessages.organisationAllreadyExists)
+        const organisation = await organisationModel.create({ ...req.body });
+        console.log(organisation)
+        returnMessage.successMessage(res, messages.successMessages.addOrganisation, organisation);
+      }
     } catch (error) {
-      returnMessage.errorMessage(res,error);
+      returnMessage.errorMessage(res, error);
     }
   },
 
-  edit: async(req,res) => {
+  edit: async (req, res) => {
     try {
-      const organisation = await organisationModel.findOne({_id: req.params['id'] })
-      returnMessage.successMessage(res,messages.successMessages.showOrganisation, organisation);
-    } catch(error) {
-      returnMessage.errorMessage(res,error);
+      const organisation = await organisationModel.findOne({ _id: req.params['id'] })
+      returnMessage.successMessage(res, messages.successMessages.showOrganisation, organisation);
+    } catch (error) {
+      returnMessage.errorMessage(res, error);
     }
   },
 
-  update: async(req,res) => {
+  update: async (req, res) => {
     try {
       const organisation = await organisationModel.findByIdAndUpdate(req.params['id'], { ...req.body });
-      returnMessage.successMessage(res,messages.successMessages.updateOrganisation, organisation);
+      returnMessage.successMessage(res, messages.successMessages.updateOrganisation, organisation);
     } catch (error) {
-      returnMessage.errorMessage(res,error);
+      returnMessage.errorMessage(res, error);
     }
   },
-  delete: async(req,res) => {
+  delete: async (req, res) => {
     try {
       const organisation = await organisationModel.remove({ '_id': req.params['id'] });
-      returnMessage.successMessage(res,messages.successMessages.deleteOrganisation,organisation);
+      returnMessage.successMessage(res, messages.successMessages.deleteOrganisation, organisation);
     } catch (error) {
-      returnMessage.errorMessage(res,error);
+      returnMessage.errorMessage(res, error);
     }
   },
-  show: async(req,res) => {
+  show: async (req, res) => {
     try {
-      const organisation = await organisationModel.findOne({_id: req.params['id'] })
-      returnMessage.successMessage(res,messages.successMessages.showOrganisation, district);
-    } catch(error) {
-      returnMessage.errorMessage(res,error);
+      const organisation = await organisationModel.findOne({ _id: req.params['id'] })
+      returnMessage.successMessage(res, messages.successMessages.showOrganisation, district);
+    } catch (error) {
+      returnMessage.errorMessage(res, error);
     }
   }
 };

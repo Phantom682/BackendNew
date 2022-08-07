@@ -20,6 +20,11 @@
         "showOrganisation":"Organisation found!!",
         "deleteOrganisation": "Organisation deleted successfully",
         "updateOrganisation": "Updation Successfull",
+        "getAllDepartments":"Department data retrieved successfully",
+        "addDepartment":"Department added successfully",
+        "showDepartment":"Department found!!",
+        "deleteDepartment": "Department deleted successfully",
+        "updateDepartment": "Updation Successfull",
         "addRole":"Role added successfully",
         "addRoutePermission" : "Route Permission Added Succesfully"
     },
@@ -31,7 +36,9 @@
         "districtAlreadyExists": "Enter District already exists",
         "incorrectDistrict": "Enter correct District detail",
         "incorrectOrganisation":"Enter Correct Organisation Details",
-        "organisationAlreadyExists": "Enter Organisation already exists",
+        "organisationAlreadyExists": "Enter Department already exists",
+        "incorrectDepartment":"Enter Correct Department Details",
+        "DepartmentAlreadyExists": "Enter Organisation already exists",
         "incorrectRole":"Error while adding role",
         "addRoutePermission": "Unable to Add Route Permission"
     }

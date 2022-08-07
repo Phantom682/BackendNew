@@ -1,6 +1,6 @@
 const user = require("../controllers/user");
 const { checkPermission } = require('../middlewares/permissionMiddleware')
-const { registrationAuthRules, validateRegistration, loginAuthRules, validateLogin } = require('../utils/validations')
+const { registrationAuthRules, validateRegistration, loginAuthRules, validateLogin } = require('../validations/userValidations')
 const router = require("express").Router();
 
 router.post("/register",registrationAuthRules(), validateRegistration, user.register);
