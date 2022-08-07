@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start":"npx nodemon index.js",
-    "seed:role":"node seeder/seedroles.js"
+    "seed:role":"node seeder/seedroles.js",
+    "seed:user":"node seeder/seedusers.js"
   },
   "keywords": [],
   "author": "",
