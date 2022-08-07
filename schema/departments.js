@@ -3,18 +3,20 @@ const {Schema} = require('mongoose')
 const DepartmentSchema = mongoose.Schema({
     name:{
         type:String,
-        unique:true,
         required:true,
     },
     deaprtmentAdmin:{
         type: Schema.Types.ObjectId,
         ref:"user",
     },
-    grievanceCategory:{
-        type:Schema.Types.ObjectId,
-        ref:"mainCategory"
+    grievanceType:{
+        type:[Schema.Types.ObjectId],
+        ref:'subCategory',
     },
-    employees: Array
+    employees:{
+        type:[Schema.Types.ObjectId],
+        ref:'user',
+    },
 })
 
 module.exports = mongoose.model("department",DepartmentSchema)

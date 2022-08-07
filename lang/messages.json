@@ -33,6 +33,7 @@
         "incorrectOrganisation":"Enter Correct Organisation Details",
         "organisationAlreadyExists": "Enter Organisation already exists",
         "incorrectRole":"Error while adding role",
-        "addRoutePermission": "Unable to Add Route Permission"
+        "addRoutePermission": "Unable to Add Route Permission",
+        "fieldCanNotEmpty":"Empty fields are not allowed"
     }
 }

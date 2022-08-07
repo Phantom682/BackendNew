@@ -1,4 +1,4 @@
-const department = require("../../controllers/base_tables/department");
+const department = require("../controllers/department");
 
 const router = require("express").Router();
 

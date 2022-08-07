@@ -6,7 +6,10 @@ const OrganisationSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref:'user'
     },
-    departments: Array
+    departments: {
+        type:[Schema.Types.ObjectId],
+        ref:'department'
+    }
 })
 
 module.exports = mongoose.model("organisation",OrganisationSchema)

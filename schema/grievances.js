@@ -6,7 +6,7 @@ const GrievanceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user",
   },
-  title: {
+  mainCat: {
     type: String,
   },
   description: {
@@ -16,19 +16,27 @@ const GrievanceSchema = new Schema({
     type: Date,
   },
   department: {
-    type: Date,
+    type:Schema.Types.ObjectId,
+    ref:"department"
   },
-  type: {
+  files:{
+    type:String
+  },
+  supportedDoc:{
+    type:String
+  },
+  subCat: {
     type: Schema.Types.ObjectId,
+    ref:"subCategory"
   },
   assignedTo: {
     type: String,
   },
-  createdAt: {
-    type: Date,
-  },
   status: {
     type: String,
+  },
+  createdAt: {
+    type: Date,
   },
   verifiedAt: {
     type: Date,

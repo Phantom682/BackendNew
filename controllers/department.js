@@ -1,6 +1,6 @@
-const departmentModel = require("../../schema/departments");
-const returnMessage = require("../message");
-const messages = require("../../lang/messages.json");
+const departmentModel = require("../schema/departments");
+const returnMessage = require("./message");
+const messages = require("../lang/messages.json");
 
 module.exports = {
 
@@ -15,14 +15,18 @@ module.exports = {
 
   create: async (req, res) => {
     try {
-      console.log(req.body)
       const { name } = req.body;
-      const isNameTaken = await departmentModel.findOne({ name });
-      if (isNameTaken)
-        returnMessage.errorMessage(res,messages.errorMessages.departmentAllreadyExists)
-      const department = await departmentModel.create({ ...req.body});
-      console.log(department)
-      returnMessage.successMessage(res,messages.successMessages.addDepartment,department);
+      if (name.length <= 0) {
+        return returnMessage.errorMessage(res, messages.errorMessages.fieldCanNotEmpty)
+      }
+      else {
+        const isNameTaken = await departmentModel.findOne({ name });
+        if (isNameTaken)
+          returnMessage.errorMessage(res, messages.errorMessages.departmentAllreadyExists)
+        const department = await departmentModel.create({ ...req.body });
+        console.log(department)
+        returnMessage.successMessage(res, messages.successMessages.addDepartment, department);
+      }
     } catch (error) {
       returnMessage.errorMessage(res,error);
     }

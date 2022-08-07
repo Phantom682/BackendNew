@@ -1,4 +1,4 @@
-const organisation = require("../../controllers/base_tables/organisation");
+const organisation = require("../controllers/organisation");
 
 const router = require("express").Router();
 

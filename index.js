@@ -3,8 +3,8 @@ const authRoute = require("./routes/auth");
 const countryRoute = require("./routes/base_tables/country");
 const stateRoute = require("./routes/base_tables/state");
 const districtRoute = require("./routes/base_tables/district");
-const organisationRoute = require("./routes/base_tables/organisation");
-const departmentRoute = require("./routes/base_tables/department");
+const organisationRoute = require("./routes/organisation");
+const departmentRoute = require("./routes/department");
 require ("dotenv").config();
 
 const dbConnection = require("./utils/DBconnection");
