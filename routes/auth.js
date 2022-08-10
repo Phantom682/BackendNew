@@ -1,10 +1,8 @@
-const user = require("../controllers/user");
-const { checkPermission } = require('../middlewares/permissionMiddleware')
+const auth = require("../controllers/auth");
 const { registrationAuthRules, validateRegistration, loginAuthRules, validateLogin } = require('../utils/validations')
 const router = require("express").Router();
 
-router.post("/register",registrationAuthRules(), validateRegistration, user.register);
-router.get("/profile",checkPermission("see profile"), user.profile);
-router.post("/login",loginAuthRules(), validateLogin, user.login);
+router.post("/register",registrationAuthRules(), validateRegistration, auth.register);
+router.post("/login",loginAuthRules(), validateLogin, auth.login);
 
 module.exports = router;

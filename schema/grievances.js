@@ -7,7 +7,11 @@ const GrievanceSchema = new Schema({
     ref: "user",
   },
   mainCat: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref:"mainCategory"
+  },
+  subCat:{
+
   },
   description: {
     type: String,
@@ -15,19 +19,17 @@ const GrievanceSchema = new Schema({
   deadline: {
     type: Date,
   },
-  department: {
-    type:Schema.Types.ObjectId,
-    ref:"department"
-  },
-  files:{
+  fileName:{
     type:String
   },
-  supportedDoc:{
+  filePath:{
     type:String
   },
-  subCat: {
-    type: Schema.Types.ObjectId,
-    ref:"subCategory"
+  supportedDocName:{
+    type:String
+  },
+  supportedDocPath:{
+    type:String
   },
   assignedTo: {
     type: String,

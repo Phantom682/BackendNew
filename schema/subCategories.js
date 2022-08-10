@@ -3,9 +3,9 @@ const {Schema} = require('mongoose');
 
 const SubCategorySchema = new Schema({
     name:String,
-    mainCategoryId:{
-        typr:Schema.Types.ObjectId,
-        ref:'mainCategory'
+    grievanceId:{
+        type:[Schema.Types.ObjectId],
+        ref:'grievance'
     }
 });
 

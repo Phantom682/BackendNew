@@ -9,9 +9,9 @@ const DepartmentSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref:"user",
     },
-    grievanceType:{
+    mainCategoryIds:{
         type:[Schema.Types.ObjectId],
-        ref:'subCategory',
+        ref:'mainCategory',
     },
     employees:{
         type:[Schema.Types.ObjectId],

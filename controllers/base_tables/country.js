@@ -20,7 +20,6 @@ module.exports = {
         returnMessage.errorMessage(res,messages.errorMessages.countryAlreadyExists)
 
       const country = countryModel.create({ ...req.body });
-      console.log(country)
       returnMessage.successMessage(res,messages.successMessages.addCountry,country);
     } catch (error) {
       returnMessage.errorMessage(res,error);

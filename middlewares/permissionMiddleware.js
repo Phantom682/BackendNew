@@ -9,6 +9,7 @@ const checkPermission = (permission) => {
       let decoded = verify(token, process.env.JWT_SECRET);
       req.user = decoded.email;
       const user = await userModel.findOne({ email: req.user });
+      console.log(user);
       await user.populate({
         path: "role",
       });

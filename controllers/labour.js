@@ -29,5 +29,29 @@ module.exports = {
     } catch(error) {
       returnMessage.errorMessage(res,error);
     }
-  }
+  },
+
+  profile: async (req,res) => {
+    try {
+      const user = await labourModel.findOne({email:req.user})
+      await user.populate({
+        path:"user",
+        select:"email firstName lastName mobile gender"
+      })
+      console.log(user)
+      res.status(200).json({user:user})
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
+  profileUpdate: async (req,res) => {
+    try {
+      const user = await labourModel.findOneAndUpdate({ email:req.user },{ ...req.body })
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
 };

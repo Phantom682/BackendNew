@@ -1,4 +1,4 @@
-const mainCategoryModel = require("../schema/mainCategory");
+const mainCategoryModel = require("../schema/mainCategories");
 const returnMessage = require("./message");
 const messages = require("../lang/messages.json");
 
