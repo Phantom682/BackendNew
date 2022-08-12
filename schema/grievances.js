@@ -11,7 +11,8 @@ const GrievanceSchema = new Schema({
     ref:"mainCategory"
   },
   subCat:{
-
+    type: Schema.Types.ObjectId,
+    ref:"subCategory"
   },
   description: {
     type: String,
@@ -26,13 +27,14 @@ const GrievanceSchema = new Schema({
     type:String
   },
   supportedDocName:{
-    type:String
+    type:Array
   },
   supportedDocPath:{
     type:String
   },
   assignedTo: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref:"user"
   },
   status: {
     type: String,

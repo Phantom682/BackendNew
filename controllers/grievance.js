@@ -2,6 +2,8 @@ const grievanceModel = require("../schema/grievances");
 const subcatModel = require("../schema/subCategories");
 const returnMessage = require("./message");
 const messages = require("../lang/messages.json");
+const mainCategories = require("../schema/mainCategories");
+const subCategories = require("../schema/subCategories");
 
 module.exports = {
 
@@ -21,17 +23,25 @@ module.exports = {
   fileGrievance: async (req, res) => {
     try {
       // we find here id of respected subCat the pass the grievance id into that particular subCat
+      const mainCategory = await mainCategories.findOne({_id:req.body.mainCat})
+      console.log({mainCat:mainCategory})
+
+      const requiredSubCategory = mainCategory.subCategoryId.find(function mapping(mainCat){return mainCat == req.body.subCat})
+      console.log({reqSub:requiredSubCategory})
+      
       const grievance = await grievanceModel.create({
         ...req.body,
         fileName: req.file.filename,
         filePath: req.file.path,
+        mainCat:req.body.mainCat,
+        subCat:req.body.subCat,
         deadline: Date.now(),
         status:"under scrunity",
-        createAt:Date.now(),
-        verfiedAt:Date.now()
+        createdAt:Date.now(),
+        verifiedAt:Date.now()
       });
       console.log(grievance);
-      console.log(await subcatModel.findOneAndUpdate({name:"Not Providing Treatment"},{$set:{grievanceId:grievance._id}}))
+      console.log(await subCategories.findByIdAndUpdate({_id:requiredSubCategory},{$push:{grievanceId:grievance._id}}))
       returnMessage.successMessage(
         res,
         messages.successMessages.addGrievance,

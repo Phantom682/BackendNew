@@ -8,5 +8,6 @@ router.get("/:id/edit",mainCategory.edit);
 router.put("/:id",mainCategory.update);
 router.delete("/:id",mainCategory.delete);
 router.get("/:id",mainCategory.show);
+router.get("/subcategory/:id",mainCategory.showSubCat);
 
 module.exports = router;

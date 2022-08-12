@@ -66,5 +66,16 @@ module.exports = {
     } catch(error) {
       returnMessage.errorMessage(res,error);
     }
-  }
+  },
+
+  showMainCat: async(req,res) => {
+    try {
+      const department = await departmentModel.findOne({_id: req.params['id'] })
+      await department.populate("mainCategoryIds")
+      const mainCategories = department.mainCategoryIds.map(function getname(mainCat){return {_id: mainCat._id, name:mainCat.name}})
+      returnMessage.successMessage(res,messages.successMessages.showDepartment, mainCategories);
+    } catch(error) {
+      returnMessage.errorMessage(res,error);
+    }
+  },
 };

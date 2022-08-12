@@ -66,5 +66,16 @@ module.exports = {
     } catch(error) {
       returnMessage.errorMessage(res,error);
     }
-  }
+  },
+
+  showSubCat: async(req,res) => {
+    try {
+      const mainCategory = await mainCategoryModel.findOne({_id: req.params['id'] })
+      await mainCategory.populate("subCategoryId")
+      const subCategories = mainCategory.subCategoryId.map(function getname(subCat){return {_id:subCat._id, name:subCat.name}})
+      returnMessage.successMessage(res,messages.successMessages.showDepartment,subCategories);
+    } catch(error) {
+      returnMessage.errorMessage(res,error);
+    }
+  },
 };

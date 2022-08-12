@@ -8,5 +8,6 @@ router.get("/:id/edit",department.edit);
 router.put("/:id",department.update);
 router.delete("/:id",department.delete);
 router.get("/:id",department.show);
+router.get("/mainCat/:id",department.showMainCat);
 
 module.exports = router;
