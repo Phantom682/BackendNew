@@ -28,6 +28,7 @@ app.use(`/department`,departmentRoute)
 app.use(`/user`,userRoute)
 app.use(`/grievance`,grievanceRoute)
 app.use(`/mainCategory`,mainCategoryRoute)
+app.use(`/subCategory`,mainCategoryRoute)
 
 app.listen(5000, async () => {
   try {

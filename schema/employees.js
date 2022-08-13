@@ -13,3 +13,5 @@ const EmployeesSchema = new Schema({
         ref:"subCategory"
     }
 })
+
+module.exports = mongoose.model('employee',EmployeesSchema)
