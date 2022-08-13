@@ -22,44 +22,43 @@ module.exports = {
 
   fileGrievance: async (req, res) => {
     try {
-      // we find here id of respected subCat the pass the grievance id into that particular subCat
-      const mainCategory = await mainCategories.findOne({_id:req.body.mainCat})
-      console.log({mainCat:mainCategory})
+      console.log(req.file,req.body.details.mainCat);
+  //     const mainCategory = await mainCategories.findOne({_id:req.body.body.mainCat})
+  //     console.log({mainCat:mainCategory})
 
-      const requiredSubCategory = mainCategory.subCategoryId.find(function mapping(mainCat){return mainCat == req.body.subCat})
-      console.log({reqSub:requiredSubCategory})
+  //     const requiredSubCategory = mainCategory.subCategoryId.find(function mapping(mainCat){return mainCat == req.body.body.subCat})
+  //     console.log({reqSub:requiredSubCategory})
       
-      const grievance = await grievanceModel.create({
-        ...req.body,
-        fileName: req.file.filename,
-        filePath: req.file.path,
-        mainCat:req.body.mainCat,
-        subCat:req.body.subCat,
-        deadline: Date.now(),
-        status:"under scrunity",
-        createdAt:Date.now(),
-        verifiedAt:Date.now()
-      });
-      console.log(grievance);
-      console.log(await subCategories.findByIdAndUpdate({_id:requiredSubCategory},{$push:{grievanceId:grievance._id}}))
-      returnMessage.successMessage(
-        res,
-        messages.successMessages.addGrievance,
-        grievance
-      );
-    } catch (error) {
-      returnMessage.errorMessage(res, error);
-    }
-  },
+  //     const grievance = await grievanceModel.create({
+  //       fileName: req.file.filename,
+  //       filePath: req.file.path,
+  //       mainCat:req.body.body.mainCat,
+  //       subCat:req.body.body.subCat,
+  //       deadline: Date.now(),
+  //       status:"under scrunity",
+  //       createdAt:Date.now(),
+  //       verifiedAt:Date.now()
+  //     });
+  //     console.log(grievance);
+  //     console.log(await subCategories.findByIdAndUpdate({_id:requiredSubCategory},{$push:{grievanceId:grievance._id}}))
+  //     returnMessage.successMessage(
+  //       res,
+  //       messages.successMessages.addGrievance,
+  //       grievance
+  //     );
+  //   } catch (error) {
+  //     returnMessage.errorMessage(res, error);
+  //   }
+  // },
 
-  edit: async (req, res) => {
-    try {
-      const grievance = await grievanceModel.findOne({ _id: req.params["id"] });
-      returnMessage.successMessage(
-        res,
-        messages.successMessages.showgrievance,
-        grievance
-      );
+  // edit: async (req, res) => {
+  //   try {
+  //     const grievance = await grievanceModel.findOne({ _id: req.params["id"] });
+  //     returnMessage.successMessage(
+  //       res,
+  //       messages.successMessages.showgrievance,
+  //       grievance
+  //     );
     } catch (error) {
       returnMessage.errorMessage(res, error);
     }
