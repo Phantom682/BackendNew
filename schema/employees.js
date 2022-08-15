@@ -1,14 +1,11 @@
 const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 const EmployeesSchema = new Schema({
-    name:String,
-    role:{
+    user:{
         type:Schema.Types.ObjectId,
-        ref:"role"
+        ref:"user"
     },
-    email:String,
-    password:String,
-    subCatId:{
+    assignedCatId:{
         type:[Schema.Types.ObjectId],
         ref:"subCategory"
     }

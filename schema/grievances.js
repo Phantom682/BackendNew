@@ -34,7 +34,7 @@ const GrievanceSchema = new Schema({
   },
   assignedTo: {
     type: Schema.Types.ObjectId,
-    ref:"user"
+    ref:"employee"
   },
   status: {
     type: String,

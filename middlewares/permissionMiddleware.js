@@ -3,16 +3,22 @@ const { verify } = require("jsonwebtoken");
 
 const checkPermission = (permission) => {
   return async (req, res, next) => {
+
     let token = req.headers.authorization;
+
     if (token) {
       token = token.split(" ")[1];
       let decoded = verify(token, process.env.JWT_SECRET);
+
       req.user = decoded.email;
+      
       const user = await userModel.findOne({ email: req.user });
-      console.log(user);
       await user.populate({
         path: "role",
       });
+
+      req.role = user.role.name
+
       if (user.role.permissions.includes(permission)) {
         next();
       } else {
@@ -24,6 +30,7 @@ const checkPermission = (permission) => {
     }
   };
 };
+
 module.exports = {
   checkPermission,
 };

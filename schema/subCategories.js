@@ -7,6 +7,10 @@ const SubCategorySchema = new Schema({
         type:[Schema.Types.ObjectId],
         ref:'grievance'
     },
+    empId:{
+        type:[Schema.Types.ObjectId],
+        ref:'user'
+    }
 });
 
 module.exports = mongoose.model('subCategory',SubCategorySchema);

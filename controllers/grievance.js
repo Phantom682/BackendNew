@@ -1,5 +1,6 @@
 const grievanceModel = require("../schema/grievances");
-const subcatModel = require("../schema/subCategories");
+const employeeModel = require("../schema/employees");
+const userModel = require("../schema/users");
 const returnMessage = require("./message");
 const messages = require("../lang/messages.json");
 const mainCategories = require("../schema/mainCategories");
@@ -9,12 +10,33 @@ module.exports = {
 
   getAllGrievances: async (req, res) => {
     try {
-      const grievances = await grievanceModel.find({});
-      returnMessage.successMessage(
-        res,
-        messages.successMessages.getAllGrievances,
-        grievances
-      );
+      const role = req.role;
+      if(role === "super-admin"){
+        let grievances = await grievanceModel.find({});
+        returnMessage.successMessage(
+          res,
+          messages.successMessages.getAllGrievances,
+          grievances
+        );
+      }
+      else if(role === "user"){
+        const userId = await userModel.findOne({email:req.user},{_id:1})
+        let grievances = await grievanceModel.find({createdBy:userId})
+        returnMessage.successMessage(
+          res,
+          messages.successMessages.getAllGrievances,
+          grievances
+        );
+      }
+      else if(role === "ministry-admin" || role === "department-admin" || role === "organisation-admin"){
+        const empId = await employeeModel.findOne({role:role},{_id:1})
+        let grievances = await grievanceModel.find({assignedTo:empId})
+        returnMessage.successMessage(
+          res,
+          messages.successMessages.getAllGrievances,
+          grievances
+        );
+      }
     } catch (error) {
       returnMessage.errorMessage(res, error);
     }
@@ -29,6 +51,7 @@ module.exports = {
       const requiredSubCategory = mainCategory.subCategoryId.find(function mapping(mainCat){return mainCat == body.subCat})
       
       const grievance = await grievanceModel.create({
+        createdBy: req.body.createdBy,
         fileName: req.file.filename,
         filePath: req.file.path,
         mainCat: body.mainCat,
@@ -41,7 +64,7 @@ module.exports = {
       });
 
       await subCategories.findByIdAndUpdate({_id:requiredSubCategory},{$push:{grievanceId:grievance._id}})
-
+      console.log(grievance)
       returnMessage.successMessage(
         res,
         messages.successMessages.addGrievance,

@@ -35,7 +35,6 @@ module.exports = {
       const { password, email } = req.body;
 
       const userData = await userModel.findOne({ email });
-
       if (!userData)
         return res.status(400).json({ message: "User is not registered" });
 
@@ -43,6 +42,7 @@ module.exports = {
 
       if (hashedPass.hash === userData.hash) {
         return res.status(200).json({
+          status:"success",
           message: "User logged in",
           token: signToken({ email: req.body.email }),
         });

@@ -8,6 +8,7 @@ const departmentRoute = require("./routes/department");
 const userRoute = require("./routes/labour");
 const grievanceRoute = require("./routes/grievance");
 const mainCategoryRoute = require("./routes/mainCategory");
+const subCategoryRoute = require("./routes/subCategory");
 require ("dotenv").config();
 
 const dbConnection = require("./utils/DBconnection");
@@ -28,7 +29,7 @@ app.use(`/department`,departmentRoute)
 app.use(`/user`,userRoute)
 app.use(`/grievance`,grievanceRoute)
 app.use(`/mainCategory`,mainCategoryRoute)
-app.use(`/subCategory`,mainCategoryRoute)
+app.use(`/subCategory`,subCategoryRoute)
 
 app.listen(5000, async () => {
   try {
