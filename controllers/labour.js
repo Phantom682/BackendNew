@@ -2,6 +2,7 @@ const labourModel = require("../schema/labours");
 const userModel = require("../schema/users");
 const returnMessage = require("./message");
 const messages = require("../lang/messages.json");
+const { findOne } = require("../schema/users");
 
 module.exports = {
 
@@ -38,9 +39,13 @@ module.exports = {
       const labour = await labourModel.findOne({user:user._id})
       await labour.populate({
         path:"user",
-        select:"email firstName lastName mobile gender"
+        select:"email firstName lastName mobile gender role",
+        populate:{
+          path:'role',
+          select:'name'
+        }
       })
-      res.status(200).json({user:labour})
+      res.status(200).json({labour})
     } catch (error) {
       console.log(error);
       res.status(500).json({ error });
@@ -54,33 +59,45 @@ module.exports = {
       let gender = req.body.gender;
       let country = req.body.country;
       let state = req.body.state;
+      let address1 = req.body.address1;
+      let address2 = req.body.address2;
       let district = req.body.district;
-      let mobile = req.body.mobile;
-      let dob = req.body.dob;
-      let address = req.body.address
-      const user = await userModel.findOneAndUpdate({ email:req.user },{$set:
-        { 
-          firstName,
-          lastName,
-          gender,
-          mobile,
-          dob
-        }})
-      const labourDetails = await labourModel.findOneAndUpdate({ user:user._id },{$set:
+      let pincode = req.body.pincode;
+      
+      const user = await userModel.findOne({email:req.user})
+      const userData = await userModel.findOneAndUpdate(
+        { email: req.user },
         {
-          country,
-          state,
-          district,
-          address
-        }})
-        const data = {
-          user,
-          labourDetails
+          $set: {
+            firstName,
+            lastName,
+            gender
+          }
+        },
+        { new: true }
+      )
+      const labourData = await labourModel.findOneAndUpdate(
+        { user: user._id },
+        {
+          $set:{
+            address1,
+            address2,
+            country,
+            state,
+            district,
+            pincode
+            
+          }
+        },
+        {new:true}
+        )
+        const labour = {
+          userData,
+          labourData
         }
-      returnMessage.successMessage(res,messages.successMessages.showLabour, data);
+        returnMessage.successMessage(res,messages.successMessages.showLabour, labour);
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error });
+      console.log(error.message);
     }
   },
 };

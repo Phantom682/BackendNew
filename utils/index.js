@@ -12,6 +12,7 @@ module.exports = {
     return { salt, hash };
   },
   signToken: (data) => {
+    console.log(data)
     return sign(data, process.env.JWT_SECRET);
   },
   verifyToken: (authHeader) => {

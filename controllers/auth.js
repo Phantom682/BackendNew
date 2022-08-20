@@ -39,12 +39,16 @@ module.exports = {
         return res.status(400).json({ message: "User is not registered" });
 
       const hashedPass = hashPassword(password, userData.salt);
-
+      await userData.populate({
+        path:"role",
+        select:"name"
+      })
       if (hashedPass.hash === userData.hash) {
         return res.status(200).json({
           status:"success",
           message: "User logged in",
           token: signToken({ email: req.body.email }),
+          userData : userData,
         });
       }
       return res.status(400).json({ message: "Incorrect password" });

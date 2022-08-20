@@ -46,7 +46,7 @@ module.exports = {
     try {
       const body = JSON.parse(JSON.stringify(req.body))
 
-      const mainCategory = await mainCategories.findOne({_id:body.mainCat})
+      const mainCategory = await mainCategories.findOne({name:body.mainCat})
 
       const requiredSubCategory = mainCategory.subCategoryId.find(function mapping(mainCat){return mainCat == body.subCat})
       

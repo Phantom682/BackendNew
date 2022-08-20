@@ -7,6 +7,6 @@ router.post("/", district.create);
 router.get("/:id/edit",district.edit);
 router.put("/:id",district.update);
 router.delete("/:id",district.delete);
-router.get("/:id",district.show);
+router.get("/:state",district.show);
 
 module.exports = router;

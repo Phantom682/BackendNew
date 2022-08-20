@@ -7,8 +7,7 @@ const GrievanceSchema = new Schema({
     ref: "user",
   },
   mainCat: {
-    type: Schema.Types.ObjectId,
-    ref:"mainCategory"
+    type:String,
   },
   subCat:{
     type: Schema.Types.ObjectId,
@@ -16,6 +15,15 @@ const GrievanceSchema = new Schema({
   },
   description: {
     type: String,
+  },
+  companyName:{
+    type:String,
+  },
+  workLocation:{
+    type:String,
+  },
+  regionName:{
+    type:String,
   },
   deadline: {
     type: Date,

@@ -18,10 +18,7 @@ module.exports = {
       const isNameTaken = await districtModel.findOne({ name });
       if (isNameTaken)
         returnMessage.errorMessage(res,messages.errorMessages.stateAlreadyExists)
-      const state = await stateModel.findOne({name:"Bihar"},{_id:1})
-      console.log(state._id)
       const district = await districtModel.create({ ...req.body,state});
-      console.log(district)
       returnMessage.successMessage(res,messages.successMessages.addDistrict,district);
     } catch (error) {
       returnMessage.errorMessage(res,error);
@@ -53,7 +50,7 @@ module.exports = {
   },
   show: async(req,res) => {
     try {
-      const district = await districtModel.findOne({_id: req.params['id'] })
+      const district = await districtModel.find({state: req.params['state'] },{name:1})
       returnMessage.successMessage(res,messages.successMessages.showDistrict, district);
     } catch(error) {
       returnMessage.errorMessage(res,error);

@@ -70,7 +70,7 @@ module.exports = {
 
   showSubCat: async(req,res) => {
     try {
-      const mainCategory = await mainCategoryModel.findOne({_id: req.params['id'] })
+      const mainCategory = await mainCategoryModel.findOne({name: req.params['name'] })
       await mainCategory.populate("subCategoryId")
       const subCategories = mainCategory.subCategoryId.map(function getname(subCat){return {_id:subCat._id, name:subCat.name}})
       returnMessage.successMessage(res,messages.successMessages.showDepartment,subCategories);
