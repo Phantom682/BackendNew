@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const { verify } = require("jsonwebtoken");
 const { sign } = require("jsonwebtoken");
+require('dotenv').config()
 
 module.exports = {
   hashPassword: (password, salt = null) => {
@@ -12,7 +13,6 @@ module.exports = {
     return { salt, hash };
   },
   signToken: (data) => {
-    console.log(data)
     return sign(data, process.env.JWT_SECRET);
   },
   verifyToken: (authHeader) => {

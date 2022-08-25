@@ -4,14 +4,12 @@ module.exports = {
   registrationAuthRules: () => {
     return [
       body("email").isEmail(),
-      body("mobile").isLength({ max: 10 }),
       body("password").isAlphanumeric().isLength({ min: 6 }),
     ];
   },
 
   validateRegistration: (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors)
     if (errors.isEmpty()) {
       return next();
     } else {

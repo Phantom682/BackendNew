@@ -1,6 +1,7 @@
 const grievanceModel = require("../schema/grievances");
 const employeeModel = require("../schema/employees");
 const userModel = require("../schema/users");
+const useroleModel = require("../schema/roles");
 const returnMessage = require("./message");
 const messages = require("../lang/messages.json");
 const mainCategories = require("../schema/mainCategories");
@@ -29,12 +30,20 @@ module.exports = {
         );
       }
       else if(role === "ministry-admin" || role === "department-admin" || role === "organisation-admin"){
-        const empId = await employeeModel.findOne({role:role},{_id:1})
-        let grievances = await grievanceModel.find({assignedTo:empId})
+        const user = await userModel.findOne({email:req.user})
+        const emp = await employeeModel.findOne({user:user._id})
+        let grievances = await emp.populate({
+          path:"assignedCatId",
+          populate:{
+            path:"grievanceId",
+            select:"description companyName createdAt status"
+          }
+        });
+        // console.log(grievances.assignedCatId)
         returnMessage.successMessage(
           res,
           messages.successMessages.getAllGrievances,
-          grievances
+          grievances.assignedCatId.map((grie) => {return grie.grievanceId})
         );
       }
     } catch (error) {
@@ -56,6 +65,10 @@ module.exports = {
         filePath: req.file.path,
         mainCat: body.mainCat,
         subCat: body.subCat,
+        companyName:body.companyName,
+        workLocation:body.workLocation,
+        regionName:body.regionName,
+        headquaterName:body.headquaterName,
         description: body.dis || body.audioGriev,
         deadline: Date.now(),
         status:"under scrunity",
