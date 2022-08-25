@@ -12,7 +12,7 @@ module.exports = {
   getAllGrievances: async (req, res) => {
     try {
       const role = req.role;
-      if(role === "super-admin"){
+      if(role === "Secretory"){
         let grievances = await grievanceModel.find({});
         returnMessage.successMessage(
           res,
@@ -29,7 +29,7 @@ module.exports = {
           grievances
         );
       }
-      else if(role === "ministry-admin" || role === "department-admin" || role === "organisation-admin"){
+      else if(role === "Additional-secretory" || role === "joint-secretory" || role === "Deputes"){
         const user = await userModel.findOne({email:req.user})
         const emp = await employeeModel.findOne({user:user._id})
         let grievances = await emp.populate({

@@ -10,19 +10,19 @@ const roleModel = require('../schema/roles');
 
 const seedRole = [
     {
-        "name":"super-admin",
+        "name":"Secretory",
         "permissions":["view-grievances","update-city","delete-city","edit-city","create-city","update-state","delete-state","edit-state","create-state","view-analytics","update-country","delete-country","edit-country","create-country","update-roles-permissions","delete-roles-permissions","edit-roles-permissions","create-roles-permissions","admin-dashboard"]
     },
     {
-        "name":"ministry-admin",
+        "name":"Additional-secretory",
         "permissions":["view-grievances","aprrove-grievances","revert-grievances","update","delete","edit","create","suspend-user","view-analytics","admin-dashboard"]
     },
     {
-        "name":"department-admin",
+        "name":"joint-secretory",
         "permissions":["view-grievances","aprrove-grievances","revert-grievances","delete","edit","create","view-analytics","admin-dashboard"]
     },
     {
-        "name":"organisation-admin",
+        "name":"Deputes",
         "permissions":["view-grievances","aprrove-grievances","revert-grievances","delete","edit","create","view-analytics","admin-dashboard"]
     },
     {
