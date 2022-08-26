@@ -11,42 +11,43 @@ module.exports = {
 
   getAllGrievances: async (req, res) => {
     try {
-      const role = req.role;
-      if(role === "Secretory"){
+      // const role = req.role;
+      // if(role === "Secretory"){
         let grievances = await grievanceModel.find({});
+        const grievList = grievances.map((griev) => {return {title:griev.mainCat,createdAt:griev.createdAt,deadLine:griev.createdAt,status:griev.status,dis:griev.description}})
         returnMessage.successMessage(
           res,
           messages.successMessages.getAllGrievances,
-          grievances
+          grievList
         );
-      }
-      else if(role === "user"){
-        const userId = await userModel.findOne({email:req.user},{_id:1})
-        let grievances = await grievanceModel.find({createdBy:userId})
-        returnMessage.successMessage(
-          res,
-          messages.successMessages.getAllGrievances,
-          grievances
-        );
-      }
-      else if(role === "Additional-secretory" || role === "joint-secretory" || role === "Deputes"){
-        const user = await userModel.findOne({email:req.user})
-        const emp = await employeeModel.findOne({user:user._id})
-        let grievances = await emp.populate({
-          path:"assignedCatId",
-          populate:{
-            path:"grievanceId",
-            select:"description companyName createdAt status"
-          }
-        });
+      // }
+      // else if(role === "user"){
+      //   const userId = await userModel.findOne({email:req.user},{_id:1})
+      //   let grievances = await grievanceModel.find({createdBy:userId})
+      //   returnMessage.successMessage(
+      //     res,
+      //     messages.successMessages.getAllGrievances,
+      //     grievances
+      //   );
+      // }
+      // else if(role === "Additional-secretory" || role === "joint-secretory" || role === "Deputes"){
+      //   const user = await userModel.findOne({email:req.user})
+      //   const emp = await employeeModel.findOne({user:user._id})
+      //   let grievances = await emp.populate({
+      //     path:"assignedCatId",
+      //     populate:{
+      //       path:"grievanceId",
+      //       select:"description companyName createdAt status"
+      //     }
+      //   });
         // console.log(grievances.assignedCatId)
-        returnMessage.successMessage(
-          res,
-          messages.successMessages.getAllGrievances,
-          grievances.assignedCatId.map((grie) => {return grie.grievanceId})
-        );
+        // returnMessage.successMessage(
+        //   res,
+        //   messages.successMessages.getAllGrievances,
+        //   grievances.assignedCatId.map((grie) => {return grie.grievanceId})
+        // );
       }
-    } catch (error) {
+    catch (error) {
       returnMessage.errorMessage(res, error);
     }
   },
