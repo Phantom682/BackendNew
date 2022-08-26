@@ -4,9 +4,12 @@ const employeeModel = require("../schema/employees");
 const roleModel = require("../schema/roles");
 const nodemailer = require("nodemailer");
 const returnMessage = require("./message");
-const UserVerification = require("../schema/userVerifications")
-require('dotenv').config()
+const UserVerification = require("../schema/userVerifications");
+// Date Controller
+const { currentDateTime } = require("./DateController");
+require("dotenv").config();
 const { hashPassword, signToken, verifyToken } = require("../utils");
+const users = require("../schema/users");
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -34,12 +37,15 @@ const sendVerificationEmail = async ({ _id, email }, res) => {
     });
     await newOtpVerification.save();
     await transporter.sendMail(mailOptions);
-    let data = { message: "User registered", token: signToken({ email: email })};
-    returnMessage.successMessage(res,data);
+    let data = {
+      message: "User registered",
+      token: signToken({ email: email }),
+    };
+    returnMessage.successMessage(res, data);
   } catch (error) {
     returnMessage.errorMessage(res, error);
   }
-}
+};
 
 module.exports = {
   register: async (req, res) => {
@@ -76,13 +82,13 @@ module.exports = {
     try {
       let { userId, otp } = req.body;
       if (!userId || !otp) {
-        returnMessage.errorMessage(res, messages.errorMessages.emptyOtp);
+        return res.status(400).json({ message: "please fill OTP" });
       } else {
         const userVerificationRecord = await UserVerification.find({
           userId: userId,
         });
         if (userVerificationRecord.length <= 0) {
-          returnMessage.errorMessage(res, messages.errorMessages.accountRecord);
+          return res.status(400).json({ message: "Incorrect OTP" });
         } else {
           // check expiry
           const { expiredAt } = userVerificationRecord[0];
@@ -90,22 +96,69 @@ module.exports = {
           if (currentDateTime(expiredAt) < Date.now()) {
             // otp expired
             await UserVerification.softDelete({ userId });
-            returnMessage.errorMessage(res, messages.errorMessages.expireOtp);
+            return res.status(400).json({ message: "OTP is expired" });
           } else {
             // success
             if (otp === originalOtp) {
-              await User.updateOne({ _id: userId }, { verified: true });
+              await userModel.updateOne({ _id: userId }, { verified: true });
               await UserVerification.softDelete({ userId });
-              returnMessage.successMessage(res, messages.successMessages.verifySuccess);
+              return res.status(400).json({ message: "verification done" });
             } else {
-              returnMessage.errorMessage(res, messages.errorMessages.otpNotMatch);
+              return res.status(400).json({ message: " OTP is Not Matched" });
             }
           }
         }
       }
     } catch (error) {
-      let message = error;
-      errorMessage(res, message);
+      console.log(error);
+      res.status(500).json({ error });
+    }
+  },
+
+  resendOtp: async (req, res) => {
+    try {
+      let { userId, email } = req.body;
+      await UserVerification.softDelete({ userId });
+      const otpObject = await UserVerification.find({
+        userId: userId,
+        createdAt: {
+          $lt: new Date(),
+          $gt: new Date(new Date().getTime() - 10 * 60000),
+        },
+        isDeleted: true,
+      }).count();
+
+      if (!userId || !email) {
+        return res
+          .status(400)
+          .json({ message: " Please Fill The Email And UserId" });
+      } else {
+        if (otpObject < 5) {
+          // sendVerificationEmail({ _id: userId, email }, res)
+          const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+          // mail options
+          const mailOptions = {
+            from: process.env.AUTH_EMAIL,
+            to: email,
+            subject: "Verify Your Email For Password Reseting",
+            html: `<p>your otp is </P><strong> ${otp} </strong>`,
+          };
+          const newOtpVerification = new UserVerification({
+            userId: userId,
+            otp: otp,
+            createdAt: new Date(),
+            expiredAt: new Date().setMinutes(new Date().getMinutes() + 10),
+          });
+          await newOtpVerification.save();
+          await transporter.sendMail(mailOptions);
+          return res.status(400).json({ message: " OTP Is Succesfully SEnt TO YOur Registered Email Id" });
+        } else {
+          return res.status(400).json({ message: " OTP Limit Reached" });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
     }
   },
 
