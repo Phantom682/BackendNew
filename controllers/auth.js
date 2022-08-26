@@ -5,8 +5,11 @@ const roleModel = require("../schema/roles");
 const nodemailer = require("nodemailer");
 const returnMessage = require("./message");
 const UserVerification = require("../schema/userVerifications")
+// Date Controller
+const { currentDateTime } = require('./DateController');
 require('dotenv').config()
 const { hashPassword, signToken, verifyToken } = require("../utils");
+const users = require("../schema/users");
 
 let transporter = nodemailer.createTransport({
   service: "gmail",
@@ -76,13 +79,13 @@ module.exports = {
     try {
       let { userId, otp } = req.body;
       if (!userId || !otp) {
-        returnMessage.errorMessage(res, messages.errorMessages.emptyOtp);
+        return res.status(400).json({ message: "please fill OTP" });
       } else {
         const userVerificationRecord = await UserVerification.find({
           userId: userId,
         });
         if (userVerificationRecord.length <= 0) {
-          returnMessage.errorMessage(res, messages.errorMessages.accountRecord);
+          return res.status(400).json({ message: "Incorrect OTP" });
         } else {
           // check expiry
           const { expiredAt } = userVerificationRecord[0];
@@ -90,22 +93,22 @@ module.exports = {
           if (currentDateTime(expiredAt) < Date.now()) {
             // otp expired
             await UserVerification.softDelete({ userId });
-            returnMessage.errorMessage(res, messages.errorMessages.expireOtp);
+            return res.status(400).json({ message: "OTP is expired" });
           } else {
             // success
             if (otp === originalOtp) {
-              await User.updateOne({ _id: userId }, { verified: true });
+              await userModel.updateOne({ _id: userId }, { verified: true });
               await UserVerification.softDelete({ userId });
-              returnMessage.successMessage(res, messages.successMessages.verifySuccess);
+              return res.status(400).json({ message: "verification done" });
             } else {
-              returnMessage.errorMessage(res, messages.errorMessages.otpNotMatch);
+              return res.status(400).json({ message: " OTP is Not Matched" });
             }
           }
         }
       }
     } catch (error) {
-      let message = error;
-      errorMessage(res, message);
+      console.log(error);
+      res.status(500).json({ error });
     }
   },
 
