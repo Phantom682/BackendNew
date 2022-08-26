@@ -6,5 +6,6 @@ router.post("/register",registrationAuthRules(), validateRegistration, auth.regi
 router.post("/register/employee",registrationAuthRules(), validateRegistration, auth.registerEmployee);
 router.post("/login",loginAuthRules(), validateLogin, auth.login);
 router.post("/verify-otp", auth.verifyOtp)
+router.post("/resend-otp", auth.resendOtp)
 
 module.exports = router;
